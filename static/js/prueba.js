@@ -1,12 +1,17 @@
-
 function ver_noticias(data){        
-        var noticias = $('#noticias-content');
-        var contenido = '';
+    var noticias = $('#noticias-content');
+    var datos = $('#datos');
+    datos.html('');
+    var contenido = '';
 //	noticias.css('background-color','green');
-        $.each(data, function(key,value){
-		contenido = contenido + noticia(key,value['titular'],value['descripcion'],value['link']);
-	});
-        noticias.html("<div class='accordion' id='noticias-andina'>"+contenido+"</div>");
+    $.each(data, function(key,value){
+	   contenido = contenido + noticia(key,value['titular'],value['descripcion'],('#data'+key));
+       datos.append("<div id='"+('data'+key)+"' style='display:none;' class='descripcion'>"+value['descripcion']+"<input type='button' value='Volver' onclick='abrir();' ></div>");
+    });
+    noticias.html("<div class='accordion' id='noticias-andina'>"+contenido+"</div>");
+
+    Socialite.load();
+    update();
 }
 
 function ver_discursos(data){        
@@ -17,15 +22,16 @@ function ver_discursos(data){
         contenido = contenido + discurso(key,value['titular'],value['descripcion'],value['link']);
     });
         noticias.html("<div class='accordion' id='noticias-andina'>"+contenido+"</div>");
+
 }
 
 function noticia(num,titulo, texto, link){
-var nota= "<div class='accordion-group'> <div class='accordion-heading'> <a class='accordion-toggle'  data-toggle='collapse' data-parent='#noticias' href='#noticia"+num+"'>"+ titulo+"</a> </div>  <div style='height: 0px;' id='noticia"+num+"' class='accordion-body collapse'>  <div class='accordion-inner'><div class='texto'>"+texto+"</div><br /><a class='btn btn-inverse enlace' href='"+link+"' target='_blank'>Leer Noticia completa</a></div></div></div>";
+var nota= "<div class='accordion-group'> <div class='accordion-heading'> <a class='accordion-toggle'  data-toggle='collapse' data-parent='#noticias' href='#noticia"+num+"'>"+ titulo+"</a> </div>  <div style='height: 0px;' id='noticia"+num+"' class='accordion-body collapse'>  <div class='accordion-inner'><div class='texto'>"+texto.substring(0,300)+"</div><br /><a class='btn btn-inverse enlace' data-id='"+link+"'>Leer Noticia completa</a></div></div></div>";
 return nota;
 }
 
 function discurso(num,titulo, texto, link){
-var nota= "<div class='accordion-group'> <div class='accordion-heading'> <a class='accordion-toggle'  data-toggle='collapse' data-parent='#discursos' href='#noticia"+num+"'>"+ titulo+"</a> </div>  <div style='height: 0px;' id='noticia"+num+"' class='accordion-body collapse'>  <div class='accordion-inner'><div class='texto'>"+texto+"</div><br /><a class='btn btn-inverse enlace' href='"+link+"' target='_blank'>Leer Discurso completa</a></div></div></div>";
+var nota= "<div class='accordion-group'> <div class='accordion-heading'> <a class='accordion-toggle'  data-toggle='collapse' data-parent='#discursos' href='#discurso"+num+"'>"+ titulo+"</a> </div>  <div style='height: 0px;' id='discurso"+num+"' class='accordion-body collapse'>  <div class='accordion-inner'><div class='texto'>"+texto+"</div><br /><a class='btn btn-inverse enlace' href='"+link+"' target='_blank'>Leer Discurso completa</a></div></div></div>";
 return nota;
 }
 
@@ -42,4 +48,3 @@ function jsonp(url,id){
 $.each(data, function(key,value){                
 			noticias.append(key);
 		});*/
-
